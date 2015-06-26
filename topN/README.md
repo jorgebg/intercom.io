@@ -104,8 +104,40 @@ head sample.out
 And the top 1000 largest numbers from 200GB of random numbers:
 
 ```bash
-python generator.py -s $(( 200*1024 )) | python topn.py 1000 > sample.out
+python generator.py -s $(( 200*1024 )) | time python topn.py 1000 > sample.out
+# 100659.00user 3293.17system 272:22:00elapsed 10%CPU (0avgtext+0avgdata 7232maxresident)k
+# 0inputs+32outputs (0major+1934minor)pagefaults 0swaps
+
+wc -l sample.out
+# 1000 sample.out
+
+head sample.out
+# 999999999974
+# 999999999956
+# 999999999912
+# 999999999901
+# 999999999867
+# 999999999846
+# 999999999697
+# 999999999626
+# 999999999607
+# 999999999433
+
+tail sample.out
+# 999999942391
+# 999999942387
+# 999999942273
+# 999999942270
+# 999999942236
+# 999999942142
+# 999999942052
+# 999999941829
+# 999999941719
+# 999999941642
 ```
+
+It took 980520 seconds (~11 days) on a Amazon EC2 `t2.micro` instance, but the CPU load was only 10%.
+Looks like the generator is a bottleneck.
 
 
 
